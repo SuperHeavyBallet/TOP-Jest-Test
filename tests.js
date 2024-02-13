@@ -54,10 +54,87 @@ const calculator = {
     
 }
 
+function caesarCipher(string, shiftFactor)
+{
+    const forcedString = String(string);
+    const plainAlphabet = 
+    [
+        'a','b','c','d',
+        'e','f','g','h',
+        'i','j','k','l',
+        'm','n','o','p',
+        'q','r','s','t',
+        'u','v','w','x',
+        'y','z'
+    ]
+
+
+    const arrayOfPositions = [];
+
+    function getStringLetterPositions()
+    {
+        
+        for (let i = 0; i < forcedString.length; i++)
+        {
+            const searchForChar = forcedString[i];
+            const posInPlainAlphabet = plainAlphabet.indexOf(searchForChar);
+            arrayOfPositions.push(posInPlainAlphabet);
+
+
+        }
+    }
+    
+    const shiftedAlphabet = [];
+
+    function shiftAlphabet(shiftFactor)
+    {
+        
+
+        for (let i = 0; i < plainAlphabet.length; i++)
+        {
+
+                if ( i < shiftFactor)
+                {
+                    shiftedAlphabet.push(plainAlphabet[plainAlphabet[[0]] + (shiftFactor - i)]);
+                }
+        
+                if ( i >= shiftFactor)
+                {
+                    shiftedAlphabet.push(plainAlphabet[i + shiftFactor]);
+                }
+    
+            
+            
+
+        }
+
+        
+    }
+
+    shiftAlphabet(shiftFactor);
+    console.log("Shifted: ", shiftedAlphabet);
+
+    getStringLetterPositions();
+    const cipheredString = [];
+
+    function assembleCipher()
+    {
+        for (let i = 0; i < arrayOfPositions.length; i++)
+        {
+            cipheredString.push(shiftedAlphabet[arrayOfPositions[i]]);
+        }
+    }
+
+    assembleCipher();
+    return cipheredString.join("");
+
+}
+
 
 module.exports = 
     {
         capitalize,
         reverseString,
-        calculator
+        calculator,
+        caesarCipher
     };

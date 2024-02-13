@@ -1,7 +1,8 @@
 const {
     capitalize,
     reverseString,
-    calculator
+    calculator,
+    caesarCipher
 } = require('./tests');
 
 test('Capitalises the first letter', () =>
@@ -29,3 +30,8 @@ test('Basic calculator', () =>
     expect(calculator.multiply(3,5)).toBe(15);
 }
 );
+
+test("Apply Caser Cipher" , () =>
+{
+    expect(caesarCipher('julius', 3)).toBe('mxolxv');
+})
