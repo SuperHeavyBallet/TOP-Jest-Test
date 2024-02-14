@@ -54,87 +54,113 @@ const calculator = {
     
 }
 
-function caesarCipher(string, shiftFactor)
+function caesarCipher(string, shiftFactor, decrypt = false)
 {
-    const forcedString = String(string);
-    const plainAlphabet = 
-    [
-        'a','b','c','d',
-        'e','f','g','h',
-        'i','j','k','l',
-        'm','n','o','p',
-        'q','r','s','t',
-        'u','v','w','x',
-        'y','z'
-    ]
+
+    const forcedString = String(string).toLowerCase(); // Ensure string is a lower case string
+    const plainAlphabet = 'abcdefghijklmnopqrstuvwxyz'.split(''); // Simplified way to create the alphabet array
 
 
-    const arrayOfPositions = [];
-
-    function getStringLetterPositions()
+    //Adjust shift factor for decryption
+    if (decrypt)
     {
-        
-        for (let i = 0; i < forcedString.length; i++)
-        {
-            const searchForChar = forcedString[i];
-            const posInPlainAlphabet = plainAlphabet.indexOf(searchForChar);
-            arrayOfPositions.push(posInPlainAlphabet);
-
-
-        }
-    }
-    
-    const shiftedAlphabet = [];
-
-    function shiftAlphabet(shiftFactor)
-    {
-        
-
-        for (let i = 0; i < plainAlphabet.length; i++)
-        {
-
-                if ( i < shiftFactor)
-                {
-                    shiftedAlphabet.push(plainAlphabet[plainAlphabet[[0]] + (shiftFactor - i)]);
-                }
-        
-                if ( i >= shiftFactor)
-                {
-                    shiftedAlphabet.push(plainAlphabet[i + shiftFactor]);
-                }
-    
-            
-            
-
-        }
-
-        
+        shiftFactor = 26 - (shiftFactor % 26);
     }
 
-    shiftAlphabet(shiftFactor);
-    console.log("Shifted: ", shiftedAlphabet);
-
-    getStringLetterPositions();
-    const cipheredString = [];
-
-    function assembleCipher()
+    const shiftedAlphabet = plainAlphabet.map((char, index) =>
     {
-        for (let i = 0; i < arrayOfPositions.length; i++)
+        // Calculate new position for each character, with wrap around
+        const shiftedIndex = (index + shiftFactor) % plainAlphabet.length;
+        return plainAlphabet[shiftedIndex];
+    });
+
+    // Transform the input string according to the shifted alphabet
+    let result = '';
+    for (let char of forcedString)
+    {
+        const index = plainAlphabet.indexOf(char);
+        if (index === -1)
         {
-            cipheredString.push(shiftedAlphabet[arrayOfPositions[i]]);
+            // Character not in alphabet (e.g., spaces, puunctuation), add as is
+            result += char;
+        }
+        else
+        {
+            //Substitute char from the shifted alphabet
+            result += shiftedAlphabet[index];
         }
     }
 
-    assembleCipher();
-    return cipheredString.join("");
-
+    return result;
 }
 
+function analyzeArray(arrayOfNumbers)
+{
+
+    class Object{
+
+        constructor()
+        {
+            average: 0;
+            min: 0;
+            max: 0;
+            length: 0;
+        }
+       
+    };
+
+    const newObject = new Object();
+
+    function analyse(array)
+    {
+
+        function getAverage()
+        {
+            let total = 0;
+
+            for (let i = 0; i < array.length; i++)
+            {
+                total += array[i];
+            }
+
+            const average = total / array.length;
+            return average;
+        }
+
+        function getMin()
+        {
+            return Math.min(...array);
+        }
+
+        function getMax()
+        {
+            return Math.max(...array);
+        }
+
+        function getLength()
+        {
+            return array.length;
+        }
+
+        newObject.average = getAverage();
+        newObject.min = getMin();
+        newObject.max = getMax();
+        newObject.length = getLength();
+    }
+
+    analyse(arrayOfNumbers);
+
+    return newObject;
+
+    
+
+}
 
 module.exports = 
     {
         capitalize,
         reverseString,
         calculator,
-        caesarCipher
+        caesarCipher,
+        analyzeArray
     };
